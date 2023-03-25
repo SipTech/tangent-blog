@@ -59,13 +59,15 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category, Request $request)
+    public function show(string $id)
     {       
-        if(Category::where('id',$request->id)->first()){
+        /*if(Category::where('id',$request->id)->first()){
             return new CategoryResource(Category::findOrFail($request->id));
         }else{
             return Response::json(['error'=>'Category not found!']);
-        }
+        }*/
+
+        return new CategoryResource(Category::findOrFail($id));
     }
 
     /*

@@ -14,7 +14,12 @@ class CategoryResource extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        dd($request);
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }

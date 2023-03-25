@@ -65,12 +65,12 @@ Route::post('comment/{id}/destroy','CommentController@destroy')->middleware('aut
 /**********************************   Comment Route Ends Here   *******************************************/
 
 /**********************************   user Route Starts Here   *******************************************/
-/*Route::get('users','UserController@index')->middleware('auth:sanctum');
-Route::post('user/check/name','UserController@checkName');
-Route::post('user/check/email','UserController@checkEmail');
-Route::post('user/check/password','UserController@checkPassword');
-Route::post('register','UserController@register');
-Route::post('login','UserController@login');
-Route::get('user/detail','UserController@getUser')->middleware('auth:sanctum');
-Route::post('logout','UserController@logout')->middleware('auth:sanctum');*/
+Route::get('users',[UserController::class, 'index'])->middleware('auth:sanctum');
+Route::post('user/check/name',[UserController::class, 'checkName']);
+Route::post('user/check/email',[UserController::class, 'checkEmail']);
+Route::post('user/check/password', [UserController::class,'checkPassword']);
+Route::post('register', [UserController::class, 'register']);
+Route::post('login', [UserController::class, 'login']);
+Route::get('user/detail', [UserController::class, 'getUser'])->middleware('auth:sanctum');
+Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 /**********************************   user Route Ends Here   *******************************************/

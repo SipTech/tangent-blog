@@ -11,9 +11,9 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        return UserResource::collection(User::orderBy('id','DESC')->paginate(10));
     }
 
     /**
