@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V1\CategoryResource;
+use App\Models\Category;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Validator;
 use Response;
-use App\Http\Resources\CategoryResource;
-use Illuminate\Validation\Rule;
-use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -59,10 +59,10 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(Category $category, Request $request)
     {       
-        if(Category::where('id',$id)->first()){
-            return new CategoryResource(Category::findOrFail($id));
+        if(Category::where('id',$request->id)->first()){
+            return new CategoryResource(Category::findOrFail($request->id));
         }else{
             return Response::json(['error'=>'Category not found!']);
         }
