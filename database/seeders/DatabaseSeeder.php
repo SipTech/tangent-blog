@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
 
         $users = User::factory()
         ->count(3)
-        ->hasAttached([$posts, $comments])
+        ->hasAttached($posts)
+        ->hasAttached($comments)
         ->create();
 
         // \App\Models\User::factory()->create([

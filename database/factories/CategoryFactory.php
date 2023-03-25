@@ -16,6 +16,7 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+
         $unique_word = fake()->word()
         . "_"
         . str(fake()->unique()->randomDigit());
