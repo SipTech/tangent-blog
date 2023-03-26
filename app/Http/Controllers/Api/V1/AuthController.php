@@ -99,4 +99,14 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    /*
+    * log the author out
+    */
+    public function logout(Request $request){
+        $author=$request->user();
+        $author->api_token=NULL;
+        $author->save();
+        return Response::json(['message'=>'Logged out!']);
+    }
 }

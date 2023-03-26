@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\V1\UserController;
 /**********************************   Auth Routes   ***********************************************************/
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
+Route::post('/auth/logout', [AuthController::class, 'logout']);
 /**********************************   Auth Route Ends Here  ***************************************************/
 
 /**********************************   Category Route Starts Here   *******************************************/
@@ -55,22 +56,16 @@ Route::get('post/{id}/comments', [PostController::class, 'comments']);
 /**********************************   Post Route Ends Here   *******************************************/
 
 /**********************************   Comment Route Starts Here   *******************************************/
-/*Route::get('comments','CommentController@index')->middleware('auth:sanctum');
-Route::post('comment/check/comment','CommentController@checkComment')->middleware('auth:sanctum');
-Route::post('comment/check/post','CommentController@checkPost')->middleware('auth:sanctum');
-Route::post('comment/store','CommentController@store')->middleware('auth:sanctum');
-Route::get('comment/{id}/show','CommentController@show');
-Route::post('comment/{id}/update','CommentController@update')->middleware('auth:sanctum');
-Route::post('comment/{id}/destroy','CommentController@destroy')->middleware('auth:sanctum');*/
+Route::get('comments',[CommentController::class, 'index'])->middleware('auth:sanctum');
+Route::post('comment/check/comment', [CommentController::class, 'checkComment'])->middleware('auth:sanctum');
+Route::post('comment/check/post',[CommentController::class, 'checkPost'])->middleware('auth:sanctum');
+Route::post('comment/store', [CommentController::class, 'store'])->middleware('auth:sanctum');
+Route::get('comment/{id}/show', [CommentController::class, 'show']);
+Route::post('comment/{id}/update', [CommentController::class, 'update'])->middleware('auth:sanctum');
+Route::post('comment/{id}/destroy', [CommentController::class, 'destroy'])->middleware('auth:sanctum');
 /**********************************   Comment Route Ends Here   *******************************************/
 
 /**********************************   user Route Starts Here   *******************************************/
 Route::get('users',[UserController::class, 'index'])->middleware('auth:sanctum');
-Route::post('user/check/name',[UserController::class, 'checkName']);
-Route::post('user/check/email',[UserController::class, 'checkEmail']);
-Route::post('user/check/password', [UserController::class,'checkPassword']);
-Route::post('register', [UserController::class, 'register']);
-Route::post('login', [UserController::class, 'login']);
-Route::get('user/detail', [UserController::class, 'getUser'])->middleware('auth:sanctum');
-Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('user/{id}/show', [UserController::class, 'show'])->middleware('auth:sanctum');
 /**********************************   user Route Ends Here   *******************************************/

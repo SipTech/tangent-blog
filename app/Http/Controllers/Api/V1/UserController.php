@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Response;
+use Validator;
+use Auth;
 
 class UserController extends Controller
 {
@@ -17,34 +22,22 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(string $id)
     {
-        //
+        return new UserResource(User::findOrFail($id));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
+    /* 
+    *  get authenticated author
+    */
+    public function getAuthor(){
+        $author = [];
+        $author['name'] = Auth::user()->name;
+        $author['email'] = Auth::user()->email;
+        $author['created_at'] = User::user()->created_at;
+        $author['updated_at'] = User::user()->updated_at;
+        return UserResource($author);
     }
 }
