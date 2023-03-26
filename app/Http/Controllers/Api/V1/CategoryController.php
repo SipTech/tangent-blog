@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\CategoryResource;
+use App\Http\Resources\Api\V1\CategoryCollection;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Validator;
@@ -18,22 +20,6 @@ class CategoryController extends Controller
     public function index()
     {
         return CategoryResource::collection(Category::orderBy('id','DESC')->paginate(10));
-    }
-
-    // check title validation
-    public function checkTitle(Request $request){
-        $validators = Validator::make($request->all(),[
-            'title'=>'required|unique:categories',
-        ]);
-        return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
-    }
-
-    // check slug validation
-    public function checkSlug(Request $request){
-        $validators = Validator::make($request->all(),[
-            'slug'=>'required|unique:categories'
-        ]);
-        return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
     }
 
     /**
@@ -60,40 +46,14 @@ class CategoryController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {       
-        /*if(Category::where('id',$request->id)->first()){
-            return new CategoryResource(Category::findOrFail($request->id));
-        }else{
-            return Response::json(['error'=>'Category not found!']);
-        }*/
-
+    {
         return new CategoryResource(Category::findOrFail($id));
-    }
-
-    /*
-    * check edit title validation
-    */
-    public function checkEditTitle(Request $request){
-        $validators = Validator::make($request->all(),[
-            'title'=>['required',Rule::unique('categories')->ignore($request->id)]
-        ]);
-        return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
-    }
-
-    /** 
-     * check edit slug validation
-     */
-    public function checkEditSlug(Request $request){
-        $validators = Validator::make($request->all(),[
-            'slug'=>['required',Rule::unique('categories')->ignore($request->id)]
-        ]);
-        return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, string $id)
     {
         $validators=Validator::make($request->all(),[
             'title'=>['required',Rule::unique('categories')->ignore($request->id)],
@@ -102,7 +62,7 @@ class CategoryController extends Controller
         if($validators->fails()){
             return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
         }else{
-            $category=Category::findOrFail($request->id);
+            $category=Category::findOrFail($id);
             $category->title=$request->title;
             $category->slug=strtolower(implode('-',explode(' ',$request->slug)));
             $category->save();
@@ -113,10 +73,10 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(string $id)
     {
         try{
-            $category=Category::where('id',$request->id)->first();
+            $category=Category::where('id', $id)->first();
             if($category){
                 $category->delete();
                 return Response::json(['success'=>'Category removed successfully !']);
@@ -131,8 +91,10 @@ class CategoryController extends Controller
     /**
      * Search category by keyword 
      */
-    public function searchCategory(Request $request){
-        $categories=Category::where('title','LIKE','%'.$request->keyword.'%')->orWhere('slug','LIKE','%'.$request->keyword.'%')->get();
+    public function searchCategory(Request $request) {
+        $categories=Category::where('title','LIKE','%'.$request->keyword.'%')
+        ->orWhere('slug','LIKE','%'.$request->keyword.'%')
+        ->get();
         if(count($categories)==0){
             return Response::json(['message'=>'No category match found !']);
         }else{

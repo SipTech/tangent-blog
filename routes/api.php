@@ -31,14 +31,10 @@ Route::post('/auth/logout', [AuthController::class, 'logout']);
 
 /**********************************   Category Route Starts Here   *******************************************/
 Route::get('categories', [CategoryController::class, 'index'])->middleware('auth:sanctum');
-Route::post('category/check/title', [CategoryController::class, 'checkTitle'])->middleware('auth:sanctum');
-Route::post('category/check/slug',[CategoryController::class, 'checkSlug'])->middleware('auth:santcum');
 Route::post('category/store',[CategoryController::class, 'store'])->middleware('auth:sanctum');
-Route::get('category/{id}/show',[CategoryController::class, 'show']);
-Route::post('category/edit/check/title',[CategoryController::class, 'checkEditTitle'])->middleware('auth:sanctum');
-Route::post('category/edit/check/slug',[CategoryController::class, 'checkEditSlug'])->middleware('auth:sanctum');
-Route::post('category/update',[CategoryController::class, 'update'])->middleware('auth:sanctum');
-Route::post('category/destroy',[CategoryController::class, 'destroy'])->middleware('auth:sanctum');
+Route::get('category/{id}/show',[CategoryController::class, 'show'])->middleware('auth:sanctum');
+Route::post('category/{id}/update',[CategoryController::class, 'update'])->middleware('auth:sanctum');
+Route::post('category/{id}/destroy',[CategoryController::class, 'destroy'])->middleware('auth:sanctum');
 Route::get('category/{keyword}/search',[CategoryController::class, 'searchCategory']);
 /**********************************   Category Route Ends Here   *******************************************/
 
