@@ -42,7 +42,7 @@ Route::get('category/{keyword}/search',[CategoryController::class, 'searchCatego
 Route::get('posts',[PostController::class, 'index'])->middleware('auth:sanctum');
 Route::post('post/store', [PostController::class, 'store'])->middleware('auth:sanctum');
 Route::get('post/{id}/show', [PostController::class, 'show']);
-Route::post('post/update', [PostController::class, 'update'])->middleware('auth:sanctum');
+Route::post('post/{id}/update', [PostController::class, 'update'])->middleware('auth:sanctum');
 Route::post('post/{id}/destroy', [PostController::class, 'destroy'])->middleware('auth:sanctum');
 Route::get('post/{keyword}/search', [PostController::class, 'searchPost']);
 Route::get('post/{id}/comments', [PostController::class, 'getPostComments']);

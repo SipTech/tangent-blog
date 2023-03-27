@@ -58,7 +58,7 @@ class CommentController extends Controller
     {
         $validators=Validator::make($request->all(),[
             'comment'=>'required',
-            'article'=>'required'
+            'post'=>'required'
         ]);
         if($validators->fails()){
             return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
