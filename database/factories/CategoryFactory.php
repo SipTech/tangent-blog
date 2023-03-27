@@ -17,12 +17,11 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
 
-        $unique_word = fake()->word()
-        . "_"
-        . str(fake()->unique()->randomDigit());
+        $title = fake()->unique()->name();
+        $slug = str_replace(" ","_", $title);
         return [
-            'title' => $unique_word ,
-            'slug' => $unique_word,
+            'title' => $title ,
+            'slug' => $slug,
             'created_at' => now(),
         ];
     }

@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('comment_user', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('comment_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            $table->foreign('comment_id')->references('id')->on('comments');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('comment_user');
     }
 };

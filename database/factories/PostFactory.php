@@ -21,7 +21,7 @@ class PostFactory extends Factory
     {
         return [
             'title' => fake()->word(),
-            'author_id' => User::factory(),
+            'user_id' => User::factory(),
             'category_id' => Category::factory(),
             'body' => fake()->paragraph(4),
             'image' => fake()->imageUrl(640, 480, 'animals', true),

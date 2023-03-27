@@ -17,8 +17,8 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'author_id' => UserResource::collection($this->users),
-            'category_id' => CategoryResource::collection($this->categories),
+            'user' => new UserResource($this->whenLoaded('user')),
+            'category' => new CategoryResource($this->whenLoaded('category')),
             'body' => $this->body,
             'image' => $this->image,
             'created_at' => $this->created_at,

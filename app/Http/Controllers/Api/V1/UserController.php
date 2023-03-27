@@ -30,7 +30,7 @@ class UserController extends Controller
     }
 
     /* 
-    *  get authenticated author
+    *  get authenticated user
     */
     public function getAuthor(){
         $author = [];

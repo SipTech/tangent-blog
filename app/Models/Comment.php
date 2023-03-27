@@ -12,11 +12,11 @@ class Comment extends Model
     use HasFactory;
     protected $table='comments';
 
-    public function author(){
-        return $this->belongsTo(User::class);
+    public function users(){
+        return $this->belongsToMany(User::class);
     }
 
-    public function post(){
-        return $this->belongsTo(Post::class);
+    public function posts(){
+        return $this->belongsToMany(Post::class);
     }
 }

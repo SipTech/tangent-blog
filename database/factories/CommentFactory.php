@@ -21,8 +21,8 @@ class CommentFactory extends Factory
     {
         return [
             'comment' => fake()->text(),
-            'author_id' => User::factory(), //User::all(['id'])->random(),
-            'post_id' => Post::factory(), //Category::all(['id'])->random(),
+            'user_id' => User::factory(),
+            'post_id' => Post::factory(),
             'created_at' => now(),
         ];
     }

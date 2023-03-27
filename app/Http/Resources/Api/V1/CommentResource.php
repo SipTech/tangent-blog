@@ -4,6 +4,8 @@ namespace App\Http\Resources\Api\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Api\V1\userResource;
+use App\Http\Resources\Api\V1\postResource;
 
 class CommentResource extends JsonResource
 {
@@ -14,6 +16,12 @@ class CommentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'comment' => $this->comment,
+            'user' => new UserResource($this->whenLoaded('user')),
+            'post' => new postResource($this->whenLoaded('post')),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }

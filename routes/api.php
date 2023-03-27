@@ -40,21 +40,16 @@ Route::get('category/{keyword}/search',[CategoryController::class, 'searchCatego
 
 /**********************************   Post Route Starts Here   *******************************************/
 Route::get('posts',[PostController::class, 'index'])->middleware('auth:sanctum');
-Route::post('post/check/title',[PostController::class, 'checkTitle'])->middleware('auth:sanctum');
-Route::post('post/check/category',[PostController::class, 'checkCategory'])->middleware('auth:sanctum');
-Route::post('post/check/body', [PostController::class, 'checkBody'])->middleware('auth:sanctum');
 Route::post('post/store', [PostController::class, 'store'])->middleware('auth:sanctum');
 Route::get('post/{id}/show', [PostController::class, 'show']);
 Route::post('post/update', [PostController::class, 'update'])->middleware('auth:sanctum');
-Route::post('post/destroy', [PostController::class, 'destroy'])->middleware('auth:sanctum');
+Route::post('post/{id}/destroy', [PostController::class, 'destroy'])->middleware('auth:sanctum');
 Route::get('post/{keyword}/search', [PostController::class, 'searchPost']);
-Route::get('post/{id}/comments', [PostController::class, 'comments']);
+Route::get('post/{id}/comments', [PostController::class, 'getPostComments']);
 /**********************************   Post Route Ends Here   *******************************************/
 
 /**********************************   Comment Route Starts Here   *******************************************/
 Route::get('comments',[CommentController::class, 'index'])->middleware('auth:sanctum');
-Route::post('comment/check/comment', [CommentController::class, 'checkComment'])->middleware('auth:sanctum');
-Route::post('comment/check/post',[CommentController::class, 'checkPost'])->middleware('auth:sanctum');
 Route::post('comment/store', [CommentController::class, 'store'])->middleware('auth:sanctum');
 Route::get('comment/{id}/show', [CommentController::class, 'show']);
 Route::post('comment/{id}/update', [CommentController::class, 'update'])->middleware('auth:sanctum');

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use Response;
-use App\Http\Resources\PostResource;
-use App\Http\Resources\CommentResource;
+use App\Http\Resources\Api\V1\PostResource;
+use App\Http\Resources\Api\V1\CommentResource;
 use Illuminate\Validation\Rule;
 use App\Models\Post;
 use App\Models\Comment;
@@ -21,35 +21,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return PostResource::collection(Post::where('author_id',Auth::user()
+        return PostResource::collection(Post::where('user_id',Auth::user()
         ->id)->orderBy('id','DESC')
         ->paginate(10));
-    }
-
-
-
-    // check title validation
-    public function checkTitle(Request $request){
-        $validators = Validator::make($request->all(),[
-            'title'=>'required'
-        ]);
-        return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
-    }
-
-    // check category validation
-    public function checkCategory(Request $request){
-        $validators = Validator::make($request->all(),[
-            'category'=>'required'
-        ]);
-        return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
-    }
-
-    // check body validation
-    public function checkBody(Request $request){
-        $validators = Validator::make($request->all(),[
-            'body'=>'required'
-        ]);
-        return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
     }
 
     /**
@@ -67,7 +41,7 @@ class PostController extends Controller
         }else{
             $post=new Post();
             $post->title=$request->title;
-            $post->author_id=Auth::user()->id;
+            $post->user_id=Auth::user()->id;
             $post->category_id=$request->category;
             $post->body=$request->body;
             if($request->file('image')==NULL){
@@ -85,19 +59,15 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
-    {        
-        if(Post::where('id',$id)->first()){
-            return new PostResource(Post::findOrFail($id));
-        }else{
-            return Response::json(['error'=>'Post not found!']);
-        }
+    public function show(string $id)
+    {
+        return new PostResource(Post::findOrFail($id));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, string $id)
     {
         $validators=Validator::make($request->all(),[
             'title'=>'required',
@@ -107,10 +77,10 @@ class PostController extends Controller
         if($validators->fails()){
             return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
         }else{
-            $post=Post::where('id',$request->id)->where('author_id',Auth::user()->id)->first();
+            $post=Post::where('id', $id)->where('user_id',Auth::user()->id)->first();
             if($post){
                 $post->title=$request->title;
-                $post->author_id=Auth::user()->id;
+                $post->user_id=Auth::user()->id;
                 $post->category_id=$request->category;
                 $post->body=$request->body;
                 if($request->file('image')==NULL){
@@ -131,9 +101,9 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage using id.
      */
-    public function destroy(Request $request){
+    public function destroy(string $id){
         try{
-            $post=Post::where('id',$request->id)->where('author_id',Auth::user()->id)->first();
+            $post=Post::where('id',$id)->where('user_id', Auth::user()->id)->first();
             if($post){
                 $post->delete();
                 return Response::json(['success'=>'Post removed successfully !']);
@@ -141,24 +111,24 @@ class PostController extends Controller
                 return Response::json(['error'=>'Post not found!']);
             }
         }catch(\Illuminate\Database\QueryException $exception){
-            return Response::json(['error'=>'Post belongs to comment.So you cann\'t delete this post!']);
+            return Response::json(['error'=>'Post belongs to comment. So you can\'t delete this post!']);
         }        
     }
 
     // search post by keyword
     public function searchPost(Request $request){
-        $articles=Post::where('title','LIKE','%'.$request->keyword.'%')->get();
-        if(count($articles)==0){
+        $posts=Post::where('title','LIKE','%'.$request->keyword.'%')->get();
+        if(count($posts)==0){
             return Response::json(['message'=>'No post match found !']);
         }else{
-            return Response::json($articles);
+            return Response::json($posts);
         }        
     }
 
     // fetch comments for a specific post
-    public function comments($id){
+    public function getPostComments($id){
         if(Post::where('id',$id)->first()){
-            return CommentResource::collection(Comment::where('article_id',$id)->get());
+            return CommentResource::collection(Comment::where('post_id',$id)->get());
         }else{
             return Response::json(['error'=>'Post not found!']);
         }
