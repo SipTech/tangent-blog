@@ -41,28 +41,4 @@ class DatabaseSeeder extends Seeder
             }
         );
     }
-
-    /**
-     * Generate Post seeds
-     */
-    public function generatePosts(User $user, Category $category, int $count)
-    {
-        return Post::factory()
-            ->count($count)
-            ->hasAttached($user)
-            ->hasAttached($category)
-            ->create();
-    }
-
-    /**
-     * Generate comments
-     */
-    public function generateComments(User $user, Post $post, int $count): void
-    {
-        Comment::factory()
-        ->count($count)
-        ->hasAttached($user)
-        ->hasAttached($post)
-        ->create();
-    }
 }
