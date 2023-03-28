@@ -24,18 +24,18 @@ use App\Http\Controllers\Api\V1\UserController;
 });*/
 
 /**********************************   Auth Routes   ***********************************************************/
-Route::post('/auth/register', [AuthController::class, 'createUser']);
-Route::post('/auth/login', [AuthController::class, 'loginUser']);
-Route::post('/auth/logout', [AuthController::class, 'logout']);
+Route::post('/auth/register', [AuthController::class, 'createUser'])->middleware('request.logging');
+Route::post('/auth/login', [AuthController::class, 'loginUser'])->middleware('request.logging');
+Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware('request.logging');
 /**********************************   Auth Route Ends Here  ***************************************************/
 
 /**********************************   Category Route Starts Here   *******************************************/
-Route::get('categories', [CategoryController::class, 'index'])->middleware('auth:sanctum');
-Route::post('category/store',[CategoryController::class, 'store'])->middleware('auth:sanctum');
-Route::get('category/{id}/show',[CategoryController::class, 'show'])->middleware('auth:sanctum');
-Route::post('category/{id}/update',[CategoryController::class, 'update'])->middleware('auth:sanctum');
-Route::post('category/{id}/destroy',[CategoryController::class, 'destroy'])->middleware('auth:sanctum');
-Route::get('category/{keyword}/search',[CategoryController::class, 'searchCategory']);
+Route::get('categories', [CategoryController::class, 'index'])->middleware('auth:sanctum', 'request.logging');
+Route::post('category/store',[CategoryController::class, 'store'])->middleware('auth:sanctum', 'request.logging');
+Route::get('category/{id}/show',[CategoryController::class, 'show'])->middleware('auth:sanctum', 'request.logging');
+Route::post('category/{id}/update',[CategoryController::class, 'update'])->middleware('auth:sanctum', 'request.logging');
+Route::post('category/{id}/destroy',[CategoryController::class, 'destroy'])->middleware('auth:sanctum', 'request.logging');
+Route::get('category/{keyword}/search',[CategoryController::class, 'searchCategory'])->middleware('request.logging');
 /**********************************   Category Route Ends Here   *******************************************/
 
 /**********************************   Post Route Starts Here   *******************************************/
