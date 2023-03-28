@@ -62,6 +62,26 @@ class User extends Authenticatable
     private $password;
 
     /**
+     * @OA\Property(
+     *     description="Created At datetime",
+     *     title="created_at",
+     * )
+     *
+     * @var string
+     */
+    private $created_at;
+
+    /**
+     * @OA\Property(
+     *     description="Updated At datetime",
+     *     title="updated_at",
+     * )
+     *
+     * @var string
+     */
+    private $updated_at;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
