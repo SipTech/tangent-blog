@@ -40,14 +40,6 @@ class DatabaseSeeder extends Seeder
                 $user->comments()->saveMany($comments);
             }
         );
-
-        /*foreach ($users as $user) 
-        {
-            $posts = $this->generatePosts($user, $categories[rand(0, count($categories)-1)], 3);
-            foreach ($posts as $post) {
-                $this->generateComments($user, $post, 2);
-            }
-        }*/
     }
 
     /**
