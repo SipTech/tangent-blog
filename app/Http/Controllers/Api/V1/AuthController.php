@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use OpenApi\Annotations as OA;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -15,6 +16,27 @@ class AuthController extends Controller
      * Create User
      * @param Request $request
      * @return User 
+     *
+     * @OA\Post(
+     *      path="/createUser",
+     *      operationId="createUser",
+     *      tags={"users"},
+     *      summary="Create a user",
+     *      description="Creates a user",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\UserResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
      */
     public function createUser(Request $request)
     {
@@ -59,6 +81,26 @@ class AuthController extends Controller
      * Login The User
      * @param Request $request
      * @return User
+     * @OA\Post(
+     *      path="/loginUser",
+     *      operationId="loginUser",
+     *      tags={"users"},
+     *      summary="Log in an existing user",
+     *      description="Logs in an existing user",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\UserResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
      */
     public function loginUser(Request $request)
     {
@@ -102,6 +144,27 @@ class AuthController extends Controller
 
     /*
     * log the author out
+    *
+    * @OA\Get(
+    *      path="/logoutUser",
+    *      operationId="logoutUser",
+    *      tags={"users"},
+    *      summary="Log out a existing user",
+    *      description="Logs out a loggegin user",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\UserResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
     */
     public function logout(Request $request){
         $author=$request->user();

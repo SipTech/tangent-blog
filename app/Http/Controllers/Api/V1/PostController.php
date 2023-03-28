@@ -9,6 +9,7 @@ use Response;
 use App\Http\Resources\Api\V1\PostResource;
 use App\Http\Resources\Api\V1\CommentResource;
 use Illuminate\Validation\Rule;
+use OpenApi\Annotations as OA;
 use App\Models\Post;
 use App\Models\Comment;
 use Auth;
@@ -17,8 +18,28 @@ use Illuminate\Support\Str;
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+    * Display a listing of the resource.
+    * @OA\Get(
+    *      path="/api/posts",
+    *      operationId="postList",
+    *      tags={"posts"},
+    *      summary="Get all posts for authenticated user",
+    *      description="Get all posts for authenticated user",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\PostResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function index()
     {
         return PostResource::collection(Post::where('user_id',Auth::user()
@@ -27,8 +48,28 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
+    * Store a newly created resource in storage.
+    * @OA\Post(
+    *      path="/api/post/store",
+    *      operationId="postStore",
+    *      tags={"posts"},
+    *      summary="Add a new post as Auth user",
+    *      description="Add a new post as Auth user",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\PostResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function store(Request $request)
     {
         $validators=Validator::make($request->all(),[
@@ -57,16 +98,58 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
+    * Display the specified resource.
+    
+    * @OA\Get(
+    *      path="/api/post/{id}/show",
+    *      operationId="postShow",
+    *      tags={"posts"},
+    *      summary="Get a post by Id",
+    *      description="Get a post by id.",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\PostResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function show(string $id)
     {
         return new PostResource(Post::findOrFail($id));
     }
 
     /**
-     * Update the specified resource in storage.
-     */
+    * Update the specified resource in storage.
+    
+    * @OA\Post(
+    *      path="/api/post/{id}update",
+    *      operationId="postUpdate",
+    *      tags={"posts"},
+    *      summary="Update a post as Auth user",
+    *      description="Update a post as Auth user",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\PostResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function update(Request $request, string $id)
     {
         $validators=Validator::make($request->all(),[
@@ -99,8 +182,29 @@ class PostController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage using id.
-     */
+    * Remove the specified resource from storage using id.
+    
+    * @OA\Post(
+    *      path="/api/post/{id}/destroy",
+    *      operationId="postDestroy",
+    *      tags={"posts"},
+    *      summary="Delete a post",
+    *      description="Delete a post",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\PostResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function destroy(string $id){
         try{
             $post=Post::where('id',$id)->where('user_id', Auth::user()->id)->first();
@@ -115,7 +219,29 @@ class PostController extends Controller
         }        
     }
 
-    // search post by keyword
+    /** 
+    * search post by keyword
+    * @OA\Get(
+    *      path="/api/post/{keyword}/search",
+    *      operationId="postSearch",
+    *      tags={"posts"},
+    *      summary="Search posts",
+    *      description="Search posts",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\PostResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function searchPost(Request $request){
         $posts=Post::where('title','LIKE','%'.$request->keyword.'%')->get();
         if(count($posts)==0){
@@ -125,7 +251,30 @@ class PostController extends Controller
         }        
     }
 
-    // fetch comments for a specific post
+    /** 
+    * fetch comments for a specific post
+
+    * @OA\Get(
+    *      path="/api/post/getPostComments",
+    *      operationId="getPostComments",
+    *      tags={"posts"},
+    *      summary="Add a new post as Auth user",
+    *      description="Add a new post as Auth user",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\PostResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function getPostComments($id){
         if(Post::where('id',$id)->first()){
             return CommentResource::collection(Comment::where('post_id',$id)->get());

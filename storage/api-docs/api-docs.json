@@ -1,0 +1,677 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Tangent Blog OpenApi Demo Documentation",
+        "description": "Tangent Blog Swagger OpenApi description",
+        "contact": {
+            "email": "sipho411@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://tangent_blog.test",
+            "description": "Demo Tangent Blog API Server"
+        }
+    ],
+    "paths": {
+        "/createUser": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create a user",
+                "description": "Creates a user",
+                "operationId": "createUser",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/loginUser": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Log in an existing user",
+                "description": "Logs in an existing user",
+                "operationId": "loginUser",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "categories"
+                ],
+                "summary": "Get all categories.",
+                "description": "Get all categories.",
+                "operationId": "categoryList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/category/store": {
+            "post": {
+                "tags": [
+                    "categories"
+                ],
+                "summary": "Add a category.",
+                "description": "Add a category.",
+                "operationId": "storeCategory",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/category/{id}/show": {
+            "get": {
+                "tags": [
+                    "categories"
+                ],
+                "summary": "Get category.",
+                "description": "Get category.",
+                "operationId": "categoryDetail",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/category/{id}/update": {
+            "post": {
+                "tags": [
+                    "categories"
+                ],
+                "summary": "Update a category.",
+                "description": "Update a category.",
+                "operationId": "categoryUpdate",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/category/{id}/destroy": {
+            "post": {
+                "tags": [
+                    "categories"
+                ],
+                "summary": "Delete a category.",
+                "description": "Delete a category.",
+                "operationId": "categoryDestroy",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/category/{keyword}/search": {
+            "get": {
+                "tags": [
+                    "categories"
+                ],
+                "summary": "Search categories.",
+                "description": "Search categories.",
+                "operationId": "categorySearch",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/comments": {
+            "get": {
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Get all comments by auth user.",
+                "description": "Get all comments by auth user.",
+                "operationId": "commentList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CommentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/comment/store": {
+            "post": {
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Add comment as Auth user..",
+                "description": "Add comment as auth user.",
+                "operationId": "commentStore",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CommentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/comment/{id}/show": {
+            "get": {
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Get comment details.",
+                "description": "Get comment details.",
+                "operationId": "commentDetails",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CommentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/comment/{id}/update": {
+            "post": {
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Update comment",
+                "description": "Update comment",
+                "operationId": "commentUpdate",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CommentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/comment/{id}/destroy": {
+            "post": {
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Delete comment",
+                "description": "Delete Comment..",
+                "operationId": "commentDestroy",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\CommentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/posts": {
+            "get": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "Get all posts for authenticated user",
+                "description": "Get all posts for authenticated user",
+                "operationId": "postList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\PostResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/post/store": {
+            "post": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "Add a new post as Auth user",
+                "description": "Add a new post as Auth user",
+                "operationId": "postStore",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\PostResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/post/{id}/show": {
+            "get": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "Get a post by Id",
+                "description": "Get a post by id.",
+                "operationId": "postShow",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\PostResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/post/{id}update": {
+            "post": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "Update a post as Auth user",
+                "description": "Update a post as Auth user",
+                "operationId": "postUpdate",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\PostResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/post/{id}/destroy": {
+            "post": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "Delete a post",
+                "description": "Delete a post",
+                "operationId": "postDestroy",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\PostResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/post/{keyword}/search": {
+            "get": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "Search posts",
+                "description": "Search posts",
+                "operationId": "postSearch",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\PostResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/post/getPostComments": {
+            "get": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "Add a new post as Auth user",
+                "description": "Add a new post as Auth user",
+                "operationId": "getPostComments",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\PostResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "list users",
+                "description": "list users",
+                "operationId": "users",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\Api\\V1\\UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user details",
+                "description": "Get user details",
+                "operationId": "userShow",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App/Http/Resources/Api/V1/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "User model",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "title": "name",
+                        "description": "name",
+                        "type": "string"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email",
+                        "type": "string"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "TangentBlog",
+            "description": "API Endpoints of TangentBlog"
+        }
+    ]
+}

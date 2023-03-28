@@ -9,22 +9,63 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 use Validator;
 use Response;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+    * Display a listing of the resource
+    * @OA\Get(
+    *      path="/api/categories",
+    *      operationId="categoryList",
+    *      tags={"categories"},
+    *      summary="Get all categories.",
+    *      description="Get all categories.",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\CategoryResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function index()
     {
         return CategoryResource::collection(Category::orderBy('id','DESC')->paginate(10));
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
+    * Store a newly created resource in storage.
+    * @OA\Post(
+    *      path="/api/category/store",
+    *      operationId="storeCategory",
+    *      tags={"categories"},
+    *      summary="Add a category.",
+    *      description="Add a category.",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\CategoryResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function store(Request $request)
     {
         $validators=Validator::make($request->all(),[
@@ -43,16 +84,56 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
+    * Display the specified resource.
+    * @OA\Get(
+    *      path="/category/{id}/show",
+    *      operationId="categoryDetail",
+    *      tags={"categories"},
+    *      summary="Get category.",
+    *      description="Get category.",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\CategoryResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function show(string $id)
     {
         return new CategoryResource(Category::findOrFail($id));
     }
 
     /**
-     * Update the specified resource in storage.
-     */
+    * Update the specified resource in storage.
+    * @OA\Post(
+    *      path="/category/{id}/update",
+    *      operationId="categoryUpdate",
+    *      tags={"categories"},
+    *      summary="Update a category.",
+    *      description="Update a category.",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\CategoryResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function update(Request $request, string $id)
     {
         $validators=Validator::make($request->all(),[
@@ -71,8 +152,28 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
+    * Remove the specified resource from storage.
+    * @OA\Post(
+    *      path="/category/{id}/destroy",
+    *      operationId="categoryDestroy",
+    *      tags={"categories"},
+    *      summary="Delete a category.",
+    *      description="Delete a category.",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\CategoryResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function destroy(string $id)
     {
         try{
@@ -89,8 +190,28 @@ class CategoryController extends Controller
     }
 
     /**
-     * Search category by keyword 
-     */
+    * Search category by keyword
+    * @OA\Get(
+    *      path="/category/{keyword}/search",
+    *      operationId="categorySearch",
+    *      tags={"categories"},
+    *      summary="Search categories.",
+    *      description="Search categories.",
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="App\Http\Resources\Api\V1\CategoryResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    */
     public function searchCategory(Request $request) {
         $categories=Category::where('title','LIKE','%'.$request->keyword.'%')
         ->orWhere('slug','LIKE','%'.$request->keyword.'%')

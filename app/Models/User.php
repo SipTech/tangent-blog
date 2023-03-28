@@ -10,9 +10,56 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
 use App\Models\Comment;
 
+/**
+ * @OA\Schema(
+ *     title="User model",
+ *     description="User model",
+ * )
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * @OA\Property(
+     *     format="int64",
+     *     description="ID",
+     *     title="ID",
+     * )
+     *
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @OA\Property(
+     *     description="name",
+     *     title="name",
+     * )
+     *
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @OA\Property(
+     *     description="Email",
+     *     title="email",
+     * )
+     *
+     * @var string
+     */
+    private $email;
+
+    /**
+     * @OA\Property(
+     *     description="Password",
+     *     title="Password",
+     * )
+     *
+     * @var string
+     */
+    private $password;
 
     /**
      * The attributes that are mass assignable.
