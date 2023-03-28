@@ -638,6 +638,123 @@
     },
     "components": {
         "schemas": {
+            "Category": {
+                "title": "Category model",
+                "description": "Category model",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "description": "category id",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "title": "title",
+                        "description": "Category title",
+                        "type": "string"
+                    },
+                    "slug": {
+                        "title": "slug",
+                        "description": "Category slug",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "description": "Category created date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "description": "Category updated date",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Comment": {
+                "title": "Comment model",
+                "description": "Comment model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "comment": {
+                        "title": "comment",
+                        "description": "Comment body",
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "title": "user_id",
+                        "description": "User ID (Author ID)",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "post_id": {
+                        "title": "post_id",
+                        "description": "Related Post ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "description": "Comment datetime created",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "description": "Comment datetime updated",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Post": {
+                "title": "Post model",
+                "description": "Post model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "title": "title",
+                        "description": "Post title",
+                        "type": "string"
+                    },
+                    "body": {
+                        "title": "body",
+                        "description": "Post body",
+                        "type": "string"
+                    },
+                    "image": {
+                        "title": "image",
+                        "description": "Post image",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "description": "Post datetime created",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "description": "Post datetime updated",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "title": "User model",
                 "description": "User model",
@@ -661,6 +778,16 @@
                     "password": {
                         "title": "Password",
                         "description": "Password",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "description": "Created At datetime",
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "description": "Updated At datetime",
                         "type": "string"
                     }
                 },
