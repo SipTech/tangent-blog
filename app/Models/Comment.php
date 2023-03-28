@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 use App\Models\Post;
 
@@ -95,8 +96,8 @@ class Comment extends Model
      *
      * @var \App\Models\User
      */
-    public function users(){
-        return $this->belongsToMany(User::class);
+    public function user(){
+        return $this->belongsTo(User::class)->withDefault();
     }
 
     /**
@@ -108,7 +109,7 @@ class Comment extends Model
      *
      * @var \App\Models\Post
      */
-    public function posts(){
-        return $this->belongsToMany(Post::class);
+    public function post(){
+        return $this->belongsTo(Post::class)->withDefault();;
     }
 }

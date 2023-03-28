@@ -24,14 +24,30 @@ class DatabaseSeeder extends Seeder
 
         $users = User::factory()
         ->count(10)
-        ->create();
+        ->create()
+        ->each(
+            function ($user) {
+                // Seed the relationship with 3 posts
+                $posts = Post::factory(Post::class)
+                ->count(3)
+                ->make();
+                $user->posts()->saveMany($posts);
 
-        foreach ($users as $user) {
+                // Seed the relationship with 5 comments
+                $comments = Comment::factory(Comment::class)
+                ->count(5)
+                ->make();
+                $user->comments()->saveMany($comments);
+            }
+        );
+
+        /*foreach ($users as $user) 
+        {
             $posts = $this->generatePosts($user, $categories[rand(0, count($categories)-1)], 3);
             foreach ($posts as $post) {
                 $this->generateComments($user, $post, 2);
             }
-        }
+        }*/
     }
 
     /**
@@ -39,8 +55,6 @@ class DatabaseSeeder extends Seeder
      */
     public function generatePosts(User $user, Category $category, int $count)
     {
-        error_log($user);
-        error_log($category);
         return Post::factory()
             ->count($count)
             ->hasAttached($user)

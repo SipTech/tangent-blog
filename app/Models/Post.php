@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\User;
@@ -105,27 +107,27 @@ class Post extends Model
 
     /**
      * @OA\Property(
-     *     property="categories",
+     *     property="category",
      *     title="Category",
      *     description="Related Category model"
      * )
      *
      * @var \App\Models\Category
      */
-    public function categories(){
-        return $this->belongsToMany(Category::class);
+    public function category(){
+        return $this->belongsTo(Category::class)->withDefault();
     }
 
     /**
      * @OA\Property(
-     *     property="users",
+     *     property="user",
      *     title="User",
      *     description="Related User model"
      * )
      *
      * @var \App\Models\User
      */
-    public function users(){
-        return $this->belongsToMany(User::class);
+    public function user(){
+        return $this->belongsTo(User::class)->withDefault();
     }
 }
