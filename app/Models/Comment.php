@@ -22,7 +22,7 @@ class Comment extends Model
      * @OA\Property(
      *     format="int64",
      *     description="ID",
-     *     title="ID",
+     *     title="id",
      * )
      *
      * @var int
@@ -44,6 +44,7 @@ class Comment extends Model
      *     format="int64",
      *     description="User ID (Author ID)",
      *     title="user_id",
+     *     example="1",
      * )
      *
      * @var int
@@ -63,7 +64,8 @@ class Comment extends Model
 
     /**
      * @OA\Property(
-     *     format="date-time",
+     *     format="datetime",
+     *     example="2023-03-28 17:50:45",
      *     description="Comment datetime created",
      *     title="created_at",
      * )
@@ -74,7 +76,8 @@ class Comment extends Model
 
     /**
      * @OA\Property(
-     *     format="date-time",
+     *     format="datetime",
+     *     example="2023-03-28 17:50:45",
      *     description="Comment datetime updated",
      *     title="updated_at",
      * )
@@ -83,10 +86,28 @@ class Comment extends Model
      */
     private $updated_at;
 
+    /**
+     * @OA\Property(
+     *     property="users",
+     *     title="user",
+     *     description="Related User model"
+     * )
+     *
+     * @var \App\Models\User
+     */
     public function users(){
         return $this->belongsToMany(User::class);
     }
 
+    /**
+     * @OA\Property(
+     *     property="posts",
+     *     title="post",
+     *     description="Related Post model"
+     * )
+     *
+     * @var \App\Models\Post
+     */
     public function posts(){
         return $this->belongsToMany(Post::class);
     }

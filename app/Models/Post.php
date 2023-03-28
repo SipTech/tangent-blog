@@ -21,6 +21,7 @@ class Post extends Model
 
     /**
      * @OA\Property(
+     *     property="id",
      *     format="int64",
      *     description="ID",
      *     title="ID",
@@ -32,6 +33,7 @@ class Post extends Model
 
     /**
      * @OA\Property(
+     *     property="title",
      *     description="Post title",
      *     title="title",
      * )
@@ -42,6 +44,7 @@ class Post extends Model
 
     /**
      * @OA\Property(
+     *     property="body",
      *     description="Post body",
      *     title="body",
      * )
@@ -52,8 +55,11 @@ class Post extends Model
 
     /**
      * @OA\Property(
+     *     property="image",
      *     description="Post image",
      *     title="image",
+     *     type="string",
+     *     default="images/image-1.png"
      * )
      *
      * @var string
@@ -62,6 +68,7 @@ class Post extends Model
 
     /**
      * @OA\Property(
+     *     property="created_at",
      *     format="date-time",
      *     description="Post datetime created",
      *     title="created_at",
@@ -73,6 +80,7 @@ class Post extends Model
 
     /**
      * @OA\Property(
+     *     property="updated_at",
      *     format="date-time",
      *     description="Post datetime updated",
      *     title="updated_at",
@@ -82,14 +90,41 @@ class Post extends Model
      */
     private $updated_at;
 
+    /**
+     * @OA\Property(
+     *     property="comment",
+     *     title="Comment",
+     *     description="Related Comment model"
+     * )
+     *
+     * @var \App\Models\Comment
+     */
     public function comments(){
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * @OA\Property(
+     *     property="categories",
+     *     title="Category",
+     *     description="Related Category model"
+     * )
+     *
+     * @var \App\Models\Category
+     */
     public function categories(){
         return $this->belongsToMany(Category::class);
     }
 
+    /**
+     * @OA\Property(
+     *     property="users",
+     *     title="User",
+     *     description="Related User model"
+     * )
+     *
+     * @var \App\Models\User
+     */
     public function users(){
         return $this->belongsToMany(User::class);
     }

@@ -42,6 +42,7 @@ class Category extends Model
      * @OA\Property(
      *     description="Category slug",
      *     title="slug",
+     *     example="this_is_a_slug",
      * )
      *
      * @var string
@@ -50,7 +51,8 @@ class Category extends Model
 
     /**
      * @OA\Property(
-     *     format="date-time",
+     *     example="2023-03-28 17:50:45",
+     *     format="datetime",
      *     description="Category created date",
      *     title="created_at",
      * )
@@ -61,7 +63,8 @@ class Category extends Model
 
     /**
      * @OA\Property(
-     *     format="date-time",
+     *     example="2023-03-28 17:50:45",
+     *     format="datetime",
      *     description="Category updated date",
      *     title="updated_at",
      * )
@@ -70,6 +73,15 @@ class Category extends Model
      */
     private $updated_at;
 
+    /**
+     * @OA\Property(
+     *     property="posts",
+     *     title="Post",
+     *     description="Related post model"
+     * )
+     *
+     * @var \App\Models\Post
+     */
     public function posts(){
         return $this->hasMany(Post::class);
     }

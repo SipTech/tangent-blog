@@ -111,10 +111,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @OA\Property(
+     *     property="posts",
+     *     title="Post",
+     *     description="Related Post model"
+     * )
+     *
+     * @var \App\Models\Post
+     */
     public function posts(){
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * @OA\Property(
+     *     property="comments",
+     *     title="Comment",
+     *     description="Related Comment model"
+     * )
+     *
+     * @var \App\Models\Comment
+     */
     public function comments(){
         return $this->hasMany(Comment::class);
     }

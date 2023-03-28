@@ -642,6 +642,9 @@
                 "title": "Category model",
                 "description": "Category model",
                 "properties": {
+                    "posts": {
+                        "$ref": "#/components/schemas/Post"
+                    },
                     "id": {
                         "title": "id",
                         "description": "category id",
@@ -656,19 +659,22 @@
                     "slug": {
                         "title": "slug",
                         "description": "Category slug",
-                        "type": "string"
+                        "type": "string",
+                        "example": "this_is_a_slug"
                     },
                     "created_at": {
                         "title": "created_at",
                         "description": "Category created date",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "datetime",
+                        "example": "2023-03-28 17:50:45"
                     },
                     "updated_at": {
                         "title": "updated_at",
                         "description": "Category updated date",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "datetime",
+                        "example": "2023-03-28 17:50:45"
                     }
                 },
                 "type": "object"
@@ -677,8 +683,14 @@
                 "title": "Comment model",
                 "description": "Comment model",
                 "properties": {
+                    "users": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "posts": {
+                        "$ref": "#/components/schemas/Post"
+                    },
                     "id": {
-                        "title": "ID",
+                        "title": "id",
                         "description": "ID",
                         "type": "integer",
                         "format": "int64"
@@ -692,7 +704,8 @@
                         "title": "user_id",
                         "description": "User ID (Author ID)",
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "example": "1"
                     },
                     "post_id": {
                         "title": "post_id",
@@ -704,13 +717,15 @@
                         "title": "created_at",
                         "description": "Comment datetime created",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "datetime",
+                        "example": "2023-03-28 17:50:45"
                     },
                     "updated_at": {
                         "title": "updated_at",
                         "description": "Comment datetime updated",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "datetime",
+                        "example": "2023-03-28 17:50:45"
                     }
                 },
                 "type": "object"
@@ -719,6 +734,15 @@
                 "title": "Post model",
                 "description": "Post model",
                 "properties": {
+                    "comment": {
+                        "$ref": "#/components/schemas/Comment"
+                    },
+                    "categories": {
+                        "$ref": "#/components/schemas/Category"
+                    },
+                    "users": {
+                        "$ref": "#/components/schemas/User"
+                    },
                     "id": {
                         "title": "ID",
                         "description": "ID",
@@ -738,7 +762,8 @@
                     "image": {
                         "title": "image",
                         "description": "Post image",
-                        "type": "string"
+                        "type": "string",
+                        "default": "images/image-1.png"
                     },
                     "created_at": {
                         "title": "created_at",
@@ -759,6 +784,12 @@
                 "title": "User model",
                 "description": "User model",
                 "properties": {
+                    "posts": {
+                        "$ref": "#/components/schemas/Post"
+                    },
+                    "comments": {
+                        "$ref": "#/components/schemas/Comment"
+                    },
                     "id": {
                         "title": "ID",
                         "description": "ID",
