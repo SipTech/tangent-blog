@@ -15,7 +15,8 @@ class UserControllerTest extends TestCase
      */
     public function test_get_all_user_request(): void
     {
-        $response = $this->get('/api/users');
+        $user = User::factory->make();
+        $response = $this->actingAs($user)->get('/api/users');
         $response->assertStatus(200);
     }
 

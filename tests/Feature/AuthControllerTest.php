@@ -13,11 +13,13 @@ class AuthControllerTest extends TestCase
 
     private function getUserWithHashedPassword(): Array
     {
-        return [
+        User::factory()->create(
+            [
                 'name'  => "Test User",
                 'email' => "runte.heidi@crist.com",
                 'password' => Hash::make('testPassword')
-            ];
+            ]
+        );
     }
 
     public function testUserIsRegisteredSuccessfully()
@@ -41,7 +43,6 @@ class AuthControllerTest extends TestCase
             'email' => $user['email'],
             'password' => $user['password']
         ];
-        dd($loginCreds);
         $response = $this->post('/api/auth/login', $user);
         $this->assertTrue($response['status']);
     }
