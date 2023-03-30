@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use App\Http\Resources\PostResource;
+use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -186,5 +187,36 @@ class PostControllerTest extends TestCase
         $this->assertDatabaseHas('posts', [
             'id' => $post->id,
         ]);
+    }
+
+    /**
+     * Test the searchPost method.
+     *
+     * @return void
+     */
+    public function testSearchPost()
+    {
+        // Create some test posts
+        $post1 = Post::factory()->create(['title' => 'Lorem ipsum dolor sit amet']);
+        $post2 = Post::factory()->create(['title' => 'consectetur adipiscing elit']);
+        $post3 = Post::factory()->create(['title' => 'Sed do eiusmod tempor incididunt']);
+        
+        // Test searching for a keyword that doesn't match any posts
+        $response = $this->get('/api/post/search?keyword=foobar');
+        $response->assertStatus(200);
+        $response->assertJson(['message' => 'No post match found !']);
+        
+        // Test searching for a keyword that matches one post
+        $response = $this->get('/api/post/search?keyword=dolor');
+        $response->assertStatus(404);
+        $response->assertJsonCount(1);
+        $response->assertJsonFragment(['id' => $post1->id, 'title' => $post1->title]);
+        
+        // Test searching for a keyword that matches multiple posts
+        $response = $this->get('/api/post/search?keyword=eiusmod');
+        $response->assertStatus(404);
+        $response->assertJsonCount(2);
+        $response->assertJsonFragment(['id' => $post2->id, 'title' => $post2->title]);
+        $response->assertJsonFragment(['id' => $post3->id, 'title' => $post3->title]);
     }
 }

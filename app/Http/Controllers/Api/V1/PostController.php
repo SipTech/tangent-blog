@@ -242,13 +242,17 @@ class PostController extends Controller
     *      )
     *     )
     */
-    public function searchPost(Request $request){
-        $posts=Post::where('title','LIKE','%'.$request->keyword.'%')->get();
-        if(count($posts)==0){
-            return Response::json(['message'=>'No post match found !'], 200);
-        }else{
-            return Response::json($posts, 404);
-        }        
+    public function searchPost(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        $posts = Post::where('title', 'LIKE', '%' . $keyword . '%')->get();
+
+        if ($posts->isEmpty()) {
+            return response()->json(['message' => 'No posts matching the keyword found.'], 404);
+        }
+
+        return response()->json($posts, 200);
     }
 
     /** 
