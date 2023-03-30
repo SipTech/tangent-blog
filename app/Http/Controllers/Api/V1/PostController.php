@@ -276,9 +276,9 @@ class PostController extends Controller
     *      )
     *     )
     */
-    public function getPostComments($id){
-        if(Post::where('id',$id)->first()){
-            return CommentResource::collection(Comment::where('post_id',$id)->get());
+    public function getPostComments(string $post_id){
+        if(Post::where('id', $post_id)->first()){
+            return CommentResource::collection(Comment::where('post_id',$post_id)->get());
         }else{
             return Response::json(['error'=>'Post not found!']);
         }

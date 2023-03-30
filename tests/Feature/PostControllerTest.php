@@ -6,19 +6,21 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class PostControllerTest extends TestCase
 {
-    use RefreshDatabase; //, WithoutMiddleware;
+    use RefreshDatabase, DatabaseTransactions;
 
     public function testIndex()
     {
@@ -216,5 +218,54 @@ class PostControllerTest extends TestCase
         $response = $this->get('/api/post/do/search');
         $response->assertStatus(200);
         $response->assertJsonCount(2);
+    }
+
+    /**
+     * Test the api/post/{id}/comments endpoint.
+     *
+     * @return void
+     */
+    public function testGetPostComments()
+    {
+        // Create a user to associate with the comments
+        $user = User::factory()->create();
+
+        // Create a post to associate with the comments
+        $post = Post::factory()->create();
+
+        // Create two comments on the post
+        $comment1 = Comment::factory()->create([
+            'user_id' => $user->id,
+            'post_id' => $post->id,
+        ]);
+
+        $comment2 = Comment::factory()->create([
+            'user_id' => $user->id,
+            'post_id' => $post->id,
+        ]);
+
+        // Send a GET request to the endpoint
+        $response = $this->get("/api/post/{$post->id}/comments");
+
+        // Assert that the response has a 200 status code
+        $response->assertStatus(200);
+
+        // Assert that the response is a JSON array
+        $response->assertJsonCount(2);
+
+        // Assert that the response contains the comments we created
+        $response->assertJsonFragment([
+            'id' => $comment1->id,
+            'body' => $comment1->body,
+            'user_id' => $user->id,
+            'post_id' => $post->id,
+        ]);
+
+        $response->assertJsonFragment([
+            'id' => $comment2->id,
+            'body' => $comment2->body,
+            'user_id' => $user->id,
+            'post_id' => $post->id,
+        ]);
     }
 }
