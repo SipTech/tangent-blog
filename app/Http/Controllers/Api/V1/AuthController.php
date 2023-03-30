@@ -116,7 +116,7 @@ class AuthController extends Controller
                     'status' => false,
                     'message' => 'validation error',
                     'errors' => $validateUser->errors()
-                ], 401);
+                ], 400);
             }
 
             if(!Auth::attempt($request->only(['email', 'password']))){

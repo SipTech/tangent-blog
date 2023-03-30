@@ -12,44 +12,51 @@ class AuthControllerTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
-    private function getUserWithHashedPassword(): Array
+    private function getUserWithHashedPassword(): array
     {
-        $user = User::factory()->make(
-            [
-                'name'  => "Test User",
-                'email' => "runte.heidi@crist.com",
-                'password' => Hash::make('testPassword')
-            ]
-        );
+        $user = User::factory()->make([
+            'name' => 'Test User',
+            'email' => 'runte.heidi@crist.com',
+            'password' => Hash::make('testPassword')
+        ]);
 
-
+        return [
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => 'testPassword'
+        ];
     }
 
     public function testUserIsRegisteredSuccessfully()
     {
-        $response = $this->post(
-            '/api/auth/register', 
-            $this->getUserWithHashedPassword()
-        );
-        //dd($this->getUserWithHashedPassword());
-        $this->assertTrue($response['status']);
-        $this->assertDatabaseHas('users', $this->getUserWithHashedPassword());
+        $response = $this->post('/api/auth/register', $this->getUserWithHashedPassword());
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('users', [
+            'name' => 'Test User',
+            'email' => 'runte.heidi@crist.com'
+        ]);
     }
 
     public function testUserIsAlreadyRegistered()
     {
+        $this->post('/api/auth/register', $this->getUserWithHashedPassword());
         $response = $this->post('/api/auth/register', $this->getUserWithHashedPassword());
-        $this->assertFalse($response['status']);
+        $response->assertStatus(401);
     }
 
     public function testUserLogsInSuccessfully()
     {
-        $user = $this->getUserWithHashedPassword();
+        $user = User::factory()->create([
+            'email' => 'runte.heidi@crist.com',
+            'password' => Hash::make('testPassword')
+        ]);
+
         $loginCreds = [
-            'email' => $user['email'],
-            'password' => $user['password']
+            'email' => 'runte.heidi@crist.com',
+            'password' => 'testPassword'
         ];
-        $response = $this->post('/api/auth/login', $user);
-        $this->assertTrue($response['status']);
+
+        $response = $this->post('/api/auth/login', $loginCreds);
+        $response->assertStatus(200);
     }
 }
