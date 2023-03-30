@@ -35,7 +35,7 @@ Route::get('categories', [CategoryController::class, 'index'])->middleware(['aut
 Route::post('category/store',[CategoryController::class, 'store'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
 Route::get('category/{id}/show',[CategoryController::class, 'show'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
 Route::post('category/{id}/update',[CategoryController::class, 'update'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
-Route::post('category/{id}/destroy',[CategoryController::class, 'destroy'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
+Route::delete('category/{id}/destroy',[CategoryController::class, 'destroy'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
 Route::get('category/{keyword}/search',[CategoryController::class, 'searchCategory'])->middleware([ApiRequestLogging::class]);
 /**********************************   Category Route Ends Here   *******************************************/
 

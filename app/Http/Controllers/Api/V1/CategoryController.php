@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\CategoryResource;
 use App\Http\Resources\Api\V1\CategoryCollection;
 use App\Models\Category;
+use App\Rules\UniqueCategoryTitleRule;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -68,19 +69,33 @@ class CategoryController extends Controller
     */
     public function store(Request $request)
     {
-        $validators=Validator::make($request->all(),[
-            'title'=>'required|unique:categories',
-            'slug'=>'required|unique:categories'
+
+        // Validate input data
+        $validator = Validator::make($request->all(), [
+            'title' => ['required', 'string', new UniqueCategoryTitleRule],
         ]);
-        if($validators->fails()){
-            return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
-        }else{
-            $category=new Category();
-            $category->title=$request->title;
-            $category->slug=strtolower(implode('-',explode(' ',$request->slug)));
-            $category->save();
-            return Response::json(['success'=>'Category created successfully !']);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
         }
+
+        // Create new category object and save it to the database
+        $title = $request->title;
+        $category = new Category();
+        $category->title = $title;
+        $category->slug = strtolower(implode('_', explode(' ', $category->title)));
+        $category->save();
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Category created successfully',
+                'category' => $category,
+            ]
+        );
     }
 
     /**
@@ -134,21 +149,20 @@ class CategoryController extends Controller
     *      )
     *     )
     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $validators=Validator::make($request->all(),[
-            'title'=>['required',Rule::unique('categories')->ignore($request->id)],
-            'slug'=>['required',Rule::unique('categories')->ignore($request->id)]
+        $category = Category::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'title' => ['required', 'string', new UniqueCategoryTitleRule],
+            'slug' => 'string',
         ]);
-        if($validators->fails()){
-            return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
-        }else{
-            $category=Category::findOrFail($id);
-            $category->title=$request->title;
-            $category->slug=strtolower(implode('-',explode(' ',$request->slug)));
-            $category->save();
-            return Response::json(['success'=>'Category updated successfully !']);
-        }
+
+        $category->title = $validatedData['title'];
+        $category->slug = strtolower(implode('_',explode(' ',$category->title)));
+        $category->save();
+
+        return response()->json(['message' => 'Category updated successfully']);
     }
 
     /**

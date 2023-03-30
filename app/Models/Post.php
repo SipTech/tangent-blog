@@ -20,6 +20,7 @@ class Post extends Model
 {
     use HasFactory;
     protected $table='posts';
+    protected $fillable = ['title', 'body', 'image', 'category_id', 'user_id', 'comment_id'];
 
     /**
      * @OA\Property(
