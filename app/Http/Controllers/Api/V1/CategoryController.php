@@ -194,9 +194,9 @@ class CategoryController extends Controller
             $category=Category::where('id', $id)->first();
             if($category){
                 $category->delete();
-                return Response::json(['success'=>'Category removed successfully !']);
+                return Response::json(['success'=>'Category removed successfully !'], 200);
             }else{
-                return Response::json(['error'=>'Category not found!']);
+                return Response::json(['error'=>'Category not found!'], 404);
             }
         }catch(\Illuminate\Database\QueryException $exception){
             return Response::json(['error'=>'Category belongs to an article.So you cann\'t delete this category!']);

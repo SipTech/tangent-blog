@@ -160,7 +160,7 @@ class PostController extends Controller
         if($validators->fails()){
             return Response::json(['errors'=>$validators->getMessageBag()->toArray()]);
         }else{
-            $post=Post::where('id', $id)->where('user_id',Auth::user()->id)->first();
+            $post = Post::find($id)->where('user_id', Auth::user()->id)->first();
             if($post){
                 $post->title=$request->title;
                 $post->user_id=Auth::user()->id;
@@ -184,7 +184,7 @@ class PostController extends Controller
     /**
     * Remove the specified resource from storage using id.
     
-    * @OA\Post(
+    * @OA\Delete(
     *      path="/api/post/{id}/destroy",
     *      operationId="postDestroy",
     *      tags={"posts"},
@@ -210,9 +210,9 @@ class PostController extends Controller
             $post=Post::where('id',$id)->where('user_id', Auth::user()->id)->first();
             if($post){
                 $post->delete();
-                return Response::json(['success'=>'Post removed successfully !']);
+                return Response::json(['success'=>'Post removed successfully !'], 200);
             }else{
-                return Response::json(['error'=>'Post not found!']);
+                return Response::json(['error'=>'Post not found!'], 404);
             }
         }catch(\Illuminate\Database\QueryException $exception){
             return Response::json(['error'=>'Post belongs to comment. So you can\'t delete this post!']);
@@ -245,9 +245,9 @@ class PostController extends Controller
     public function searchPost(Request $request){
         $posts=Post::where('title','LIKE','%'.$request->keyword.'%')->get();
         if(count($posts)==0){
-            return Response::json(['message'=>'No post match found !']);
+            return Response::json(['message'=>'No post match found !'], 200);
         }else{
-            return Response::json($posts);
+            return Response::json($posts, 404);
         }        
     }
 

@@ -44,7 +44,7 @@ Route::get('posts',[PostController::class, 'index'])->middleware(['auth:sanctum'
 Route::post('post/store', [PostController::class, 'store'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
 Route::get('post/{id}/show', [PostController::class, 'show'])->middleware([ApiRequestLogging::class]);
 Route::post('post/{id}/update', [PostController::class, 'update'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
-Route::post('post/{id}/destroy', [PostController::class, 'destroy'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
+Route::delete('post/{id}/destroy', [PostController::class, 'destroy'])->middleware(['auth:sanctum', ApiRequestLogging::class]);
 Route::get('post/{keyword}/search', [PostController::class, 'searchPost'])->middleware([ApiRequestLogging::class]);
 Route::get('post/{id}/comments', [PostController::class, 'getPostComments'])->middleware([ApiRequestLogging::class]);
 /**********************************   Post Route Ends Here   *******************************************/
