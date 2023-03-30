@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,19 +14,24 @@ class AuthControllerTest extends TestCase
 
     private function getUserWithHashedPassword(): Array
     {
-        User::factory()->create(
+        $user = User::factory()->make(
             [
                 'name'  => "Test User",
                 'email' => "runte.heidi@crist.com",
                 'password' => Hash::make('testPassword')
             ]
         );
+
+
     }
 
     public function testUserIsRegisteredSuccessfully()
     {
-        $response = $this->post('/api/auth/register', 
-        $this->getUserWithHashedPassword());
+        $response = $this->post(
+            '/api/auth/register', 
+            $this->getUserWithHashedPassword()
+        );
+        //dd($this->getUserWithHashedPassword());
         $this->assertTrue($response['status']);
         $this->assertDatabaseHas('users', $this->getUserWithHashedPassword());
     }

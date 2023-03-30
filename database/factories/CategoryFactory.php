@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,12 +17,10 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-
-        $title = fake()->unique()->name();
-        $slug = str_replace(" ","_", $title);
+        $title = fake()->sentence();
         return [
-            'title' => $title ,
-            'slug' => $slug,
+            'title' => $title,
+            'slug' => Str::slug($title),
             'created_at' => now(),
         ];
     }
