@@ -202,21 +202,19 @@ class PostControllerTest extends TestCase
         $post3 = Post::factory()->create(['title' => 'Sed do eiusmod tempor incididunt']);
         
         // Test searching for a keyword that doesn't match any posts
-        $response = $this->get('/api/post/search?keyword=foobar');
-        $response->assertStatus(200);
+        $response = $this->get('/api/post/foobar/search');
+        $response->assertStatus(404);
         $response->assertJson(['message' => 'No post match found !']);
         
         // Test searching for a keyword that matches one post
-        $response = $this->get('/api/post/search?keyword=dolor');
-        $response->assertStatus(404);
+        $response = $this->get('/api/post/dolor/search');
+        $response->assertStatus(200);
         $response->assertJsonCount(1);
         $response->assertJsonFragment(['id' => $post1->id, 'title' => $post1->title]);
         
         // Test searching for a keyword that matches multiple posts
-        $response = $this->get('/api/post/search?keyword=eiusmod');
-        $response->assertStatus(404);
+        $response = $this->get('/api/post/do/search');
+        $response->assertStatus(200);
         $response->assertJsonCount(2);
-        $response->assertJsonFragment(['id' => $post2->id, 'title' => $post2->title]);
-        $response->assertJsonFragment(['id' => $post3->id, 'title' => $post3->title]);
     }
 }

@@ -222,7 +222,7 @@ class PostController extends Controller
     /** 
     * search post by keyword
     * @OA\Get(
-    *      path="/api/post/{keyword}/search",
+    *      path="/api/post/search?keyword={keyword}",
     *      operationId="postSearch",
     *      tags={"posts"},
     *      summary="Search posts",
@@ -242,17 +242,14 @@ class PostController extends Controller
     *      )
     *     )
     */
-    public function searchPost(Request $request)
+    public function searchPost(string $keyword)
     {
-        $keyword = $request->input('keyword');
-
         $posts = Post::where('title', 'LIKE', '%' . $keyword . '%')->get();
-
-        if ($posts->isEmpty()) {
-            return response()->json(['message' => 'No posts matching the keyword found.'], 404);
-        }
-
-        return response()->json($posts, 200);
+        if (count($posts) == 0) {
+            return Response::json(['message' => 'No post match found !'], 404);
+        } else {
+            return Response::json($posts, 200);
+        }        
     }
 
     /** 
