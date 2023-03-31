@@ -9,10 +9,11 @@
     "settings": {},
     "extensions": [
         "mikestead.dotenv",
-        "amiralizadeh9480.laravel-extra-intellisense",
+        "mohamedbenhida.laravel-intellisense",
         "ryannaddy.laravel-artisan",
         "onecentlin.laravel5-snippets",
-        "onecentlin.laravel-blade"
+        "onecentlin.laravel-blade",
+        "danielsanmedium",
     ],
     "remoteUser": "sail",
     // "forwardPorts": [],
