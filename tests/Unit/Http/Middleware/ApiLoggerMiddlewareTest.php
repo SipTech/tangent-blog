@@ -42,7 +42,7 @@ class ApiLoggerMiddlewareTest extends TestCase
         $this->assertStringContainsString($request->getMethod(), $logs[0]['request']['method']);
         $this->assertStringContainsString($request->getUri(), $logs[0]['request']['uri']);
         $this->assertStringContainsString((string) $response->getStatusCode(), $logs[0]['response']['status_code']);
-        $this->assertStringContainsString($response->getContent(), $logs[0]['response']['content']);
-
+        $this->assertStringContainsString($response->getContent(), $logs[0]['response']['body']);
     }
+
 }
