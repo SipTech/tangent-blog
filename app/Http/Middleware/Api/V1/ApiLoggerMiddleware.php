@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\Api\V1;
 
+use App\Logging\LoggerStrategy;
 use App\Logging\DatabaseLoggerStrategy;
 use App\Logging\FileLoggerStrategy;
 use Closure;

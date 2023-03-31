@@ -3,6 +3,7 @@
 namespace App\Logging;
 
 use App\Models\Log;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseLoggerStrategy implements LoggerStrategy
 {
@@ -13,17 +14,11 @@ class DatabaseLoggerStrategy implements LoggerStrategy
         $log->response = $response->getContent();
         $log->save();
     }
-}
 
-class FileLoggerStrategy implements LoggerStrategy
-{
-    public function log($request, $response)
+    public function getLogs()
     {
-        $logFileName = date('Y-m-d') . '.log';
-        $logFilePath = storage_path("logs/{$logFileName}");
-        $logMessage = "[{$request->getMethod()}] {$request->fullUrl()}\n";
-        $logMessage .= "Request: {$request->getContent()}\n";
-        $logMessage .= "Response: {$response->getContent()}\n\n";
-        file_put_contents($logFilePath, $logMessage, FILE_APPEND);
+        $logs = DB::table('logs')->orderBy('id', 'desc')->get();
+        return $logs;
     }
+
 }

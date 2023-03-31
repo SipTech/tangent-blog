@@ -42,6 +42,7 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
+    'log_strategy' => 'file',
 
     /*
     |--------------------------------------------------------------------------
@@ -211,6 +212,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'config' => Illuminate\Support\Facades\Config::class,
     ])->toArray(),
 
 ];

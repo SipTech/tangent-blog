@@ -8,25 +8,21 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
 use App\Http\Resources\PostResource;
-use Illuminate\Http\Response;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+//use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class PostControllerTest extends TestCase
 {
-    use RefreshDatabase, DatabaseTransactions;
+    use RefreshDatabase;
 
     public function testIndex()
     {
         // Create a user and some posts for them
         $user = User::factory()->create();
-        $user->comments()->create(5);
+        $user->comments()->count(5)->create();
         Post::factory()->count(5)->create(['user_id' => $user->id]);
 
         // Log in as the user
@@ -202,18 +198,18 @@ class PostControllerTest extends TestCase
         $post1 = Post::factory()->create(['title' => 'Lorem ipsum dolor sit amet']);
         $post2 = Post::factory()->create(['title' => 'consectetur adipiscing elit']);
         $post3 = Post::factory()->create(['title' => 'Sed do eiusmod tempor incididunt']);
-        
+
         // Test searching for a keyword that doesn't match any posts
         $response = $this->get('/api/post/foobar/search');
         $response->assertStatus(404);
         $response->assertJson(['message' => 'No post match found !']);
-        
+
         // Test searching for a keyword that matches one post
         $response = $this->get('/api/post/dolor/search');
         $response->assertStatus(200);
         $response->assertJsonCount(1);
         $response->assertJsonFragment(['id' => $post1->id, 'title' => $post1->title]);
-        
+
         // Test searching for a keyword that matches multiple posts
         $response = $this->get('/api/post/do/search');
         $response->assertStatus(200);
